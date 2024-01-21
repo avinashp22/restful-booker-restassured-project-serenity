@@ -1,4 +1,4 @@
-package com.restful.booker.studentinfo;
+package com.restful.booker.info;
 
 import com.studentapp.constants.EndPoints;
 import com.studentapp.model.StudentPojo;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Jay
  */
-public class AuthSteps {
+public class BookingSteps {
 
     @Step("Creating student with firstName : {0}, lastName : {1}, email : {2}, programme : {3} and courses : {4}")
     public ValidatableResponse createStudent(String firstName, String lastName, String email, String programme,
