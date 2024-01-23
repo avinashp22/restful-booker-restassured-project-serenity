@@ -1,85 +1,114 @@
 package com.restful.booker.info;
 
-import com.studentapp.constants.EndPoints;
-import com.studentapp.model.StudentPojo;
+
+import com.restful.booker.constants.EndPoints;
+import com.restful.booker.model.BookingPojo;
+import com.restful.booker.utils.TestUtils;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.rest.SerenityRest;
 
 import java.util.HashMap;
-import java.util.List;
 
-/**
- * Created by Jay
- */
+
 public class BookingSteps {
 
-    @Step("Creating student with firstName : {0}, lastName : {1}, email : {2}, programme : {3} and courses : {4}")
-    public ValidatableResponse createStudent(String firstName, String lastName, String email, String programme,
-                                             List<String> courseList) {
-        StudentPojo studentPojo = new StudentPojo();
-        studentPojo.setFirstName(firstName);
-        studentPojo.setLastName(lastName);
-        studentPojo.setEmail(email);
-        studentPojo.setProgramme(programme);
-        studentPojo.setCourses(courseList);
+    public static String token;
 
-        return SerenityRest.given()
+    @Step("Create token with userName : {0}, password: {1}")
+    public ValidatableResponse createToken(String username, String password) {
+        BookingPojo bookingPojo = new BookingPojo();
+        bookingPojo.setUsername(username);
+        bookingPojo.setPassword(password);
+
+        return SerenityRest.given().log().all()
                 .contentType(ContentType.JSON)
+                .body(bookingPojo)
                 .when()
-                .body(studentPojo)
-                .post()
-                .then().log().all();
+                .post(EndPoints.CREATE_TOKEN)
+                .then();
     }
 
-    @Step("Getting the Student information with firstName : {0}")
-    public HashMap<String, Object> getStudentInfoByFirstName(String firstName) {
-        String s1 = "findAll{it.firstName == '";
-        String s2 = "'}.get(0)";
 
-        return SerenityRest.given()
+
+    @Step("Create booking with firstname: {0}, lastname: {1}, totalprice: {2}, depositpaid: {3}, " +
+            "BookingDatesData: {4}, additionalneeds: {5}")
+    public ValidatableResponse createBooking(String firstname, String lastname, int totalprice,
+                                             boolean depositpaid, HashMap<Object, Object> bookingsDatesData,
+                                             String additionalneeds) {
+
+        BookingPojo bookingPojo = new BookingPojo();
+        bookingPojo.setFirstname(firstname);
+        bookingPojo.setLastname(lastname);
+        bookingPojo.setTotalprice(totalprice);
+        bookingPojo.setDepositpaid(depositpaid);
+        bookingPojo.setBookingdates(bookingsDatesData);
+        bookingPojo.setAdditionalneeds(additionalneeds);
+
+        return SerenityRest.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(bookingPojo)
                 .when()
-                .get(EndPoints.GET_ALL_STUDENT)
-                .then().statusCode(200)
-                .extract()
-                .path(s1 + firstName + s2);
+                .post(EndPoints.GET_ALL_BOOKING)
+                .then();
     }
 
-    @Step("Updating student information with studentId : {0}, firstName : {1}, lastName : {2}, email : {3}, programme : {4} and courses : {5}")
-    public ValidatableResponse updateStudent(int studentId, String firstName, String lastName,
-                                             String email, String programme, List<String> courseList) {
-        StudentPojo studentPojo = new StudentPojo();
-        studentPojo.setFirstName(firstName);
-        studentPojo.setLastName(lastName);
-        studentPojo.setEmail(email);
-        studentPojo.setProgramme(programme);
-        studentPojo.setCourses(courseList);
+
+    @Step("Read Booking with BookingID: {0}")
+    public ValidatableResponse readBooking(int bookingID) {
 
         return SerenityRest.given().log().all()
                 .header("Content-Type", "application/json")
-                .pathParam("studentID", studentId)
-                .body(studentPojo)
+                .header("Accept", "application/json")
+                .header("Cookie", "token=" + token)
+                .header("Authorization", "Basic YWRtaW46cGFzc3dvcmQxMjM=")
+                .contentType(ContentType.JSON)
+                .pathParam("bookingID",bookingID)
                 .when()
-                .put(EndPoints.UPDATE_STUDENT_BY_ID)
-                .then().log().all();
-    }
-
-    @Step("Deleting student information with studentId : {0}")
-    public ValidatableResponse deleteStudent(int studentId){
-        return SerenityRest.given().log().all()
-                .pathParam("studentID", studentId)
-                .when()
-                .delete(EndPoints.DELETE_STUDENT_BY_ID)
+                .get(EndPoints.GET_BOOKING_BY_ID)
                 .then();
     }
 
-    @Step("Getting student information with studentId : {0}")
-    public ValidatableResponse getStudentInfoById(int studentId){
+
+
+    @Step("Update booking with bookingID: {0}, firstname: {1}, lastname: {2}, totalprice: {3}, depositpaid: {4}, " +
+            "BookingDatesData: {5}, additionalneeds: {6}")
+    public ValidatableResponse updateBooking(int bookingID, String firstname, String lastname, int totalprice,
+                                             boolean depositpaid, HashMap<Object, Object> bookingsDatesData,
+                                             String additionalneeds) {
+        firstname = "Avi" + TestUtils.getRandomValue();
+        lastname = "Patel" + TestUtils.getRandomValue();
+
+        BookingPojo bookingPojo = new BookingPojo();
+        bookingPojo.setFirstname(firstname);
+        bookingPojo.setLastname(lastname);
+        bookingPojo.setTotalprice(123);
+        bookingPojo.setDepositpaid(true);
+        bookingPojo.setBookingdates(bookingsDatesData);
+        bookingPojo.setAdditionalneeds("Breakfast");
+
         return SerenityRest.given().log().all()
-                .pathParam("studentID", studentId)
+                .contentType(ContentType.JSON)
+                .body(bookingPojo)
+                .pathParam("bookingID",bookingID)
+                .auth().preemptive().basic("admin","password123")
                 .when()
-                .get(EndPoints.GET_SINGLE_STUDENT_BY_ID)
+                .put(EndPoints.UPDATE_BOOKING_BY_ID)
+                .then();
+
+    }
+
+    @Step("Delete booking with BookingID: {0}")
+    public ValidatableResponse deleteBooking(int bookingID) {
+
+        return SerenityRest.given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("bookingID",bookingID)
+                .auth().preemptive().basic("admin","password123")
+                .when()
+                .delete(EndPoints.DELETE_BOOKING_BY_ID)
                 .then();
     }
-}
+    }
+

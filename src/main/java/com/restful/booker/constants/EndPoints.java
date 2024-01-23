@@ -1,21 +1,16 @@
 package com.restful.booker.constants;
 
-/**
- * Created by Jay
- */
+
 public class EndPoints {
 
-    /**
-     * This is Endpoints of student api
-     */
-    public static final String GET_ALL_STUDENT = "/list";
-    public static final String GET_SINGLE_STUDENT_BY_ID = "/{studentID}";
-    public static final String UPDATE_STUDENT_BY_ID = "/{studentID}";
-    public static final String DELETE_STUDENT_BY_ID = "/{studentID}";
+    public static final String CREATE_TOKEN = "/auth";
+    public static final String CREATE_BOOKING ="/booking";
+    public static final String GET_ALL_BOOKING = "/booking";
+    public static final String GET_BOOKING_BY_ID = "/booking/{bookingID}";
+    public static final String UPDATE_BOOKING_BY_ID = "/booking/{bookingID}";
+    public static final String DELETE_BOOKING_BY_ID = "/booking/{bookingID}";
 
-    /**
-     * This is Endpoints of Authentication api
-     */
-    public static final String AUTHENTICATE = "/api";
+
+
 
 }

@@ -8,10 +8,27 @@ public class BookingPojo {
     private String lastname;
     private int totalprice;
     private boolean depositpaid;
-    private HashMap<String,String> bookingdates;
     private String additionalneeds;
-    private String checkIn;
-    private String checkOut;
+    private HashMap<Object, Object> bookingdates;
+
+    private String username;
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -45,14 +62,6 @@ public class BookingPojo {
         this.depositpaid = depositpaid;
     }
 
-    public HashMap<String, String> getBookingdates() {
-        return bookingdates;
-    }
-
-    public void setBookingdates(HashMap<String, String> bookingdates) {
-        this.bookingdates = bookingdates;
-    }
-
     public String getAdditionalneeds() {
         return additionalneeds;
     }
@@ -61,19 +70,11 @@ public class BookingPojo {
         this.additionalneeds = additionalneeds;
     }
 
-    public String getCheckIn() {
-        return checkIn;
+    public HashMap<Object, Object> getBookingdates() {
+        return bookingdates;
     }
 
-    public void setCheckIn(String checkIn) {
-        this.checkIn = checkIn;
-    }
-
-    public String getCheckOut() {
-        return checkOut;
-    }
-
-    public void setCheckOut(String checkOut) {
-        this.checkOut = checkOut;
+    public void setBookingdates(HashMap<Object, Object> bookingdates) {
+        this.bookingdates = bookingdates;
     }
 }

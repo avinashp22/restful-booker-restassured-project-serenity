@@ -86,7 +86,7 @@
         <version>2.18</version>
         <configuration>
           <includes>
-            <include>**/restful.booker/**/*.java</include>
+            <include>**/restful/booker/**/*.java</include>
           </includes>
           <forkCount>4</forkCount>
           <reuseForks>true</reuseForks>
