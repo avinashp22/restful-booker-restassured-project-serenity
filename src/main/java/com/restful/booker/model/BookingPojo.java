@@ -10,7 +10,6 @@ public class BookingPojo {
     private boolean depositpaid;
     private String additionalneeds;
     private HashMap<Object, Object> bookingdates;
-
     private String username;
     private String password;
 
@@ -70,11 +69,7 @@ public class BookingPojo {
         this.additionalneeds = additionalneeds;
     }
 
-    public HashMap<Object, Object> getBookingdates() {
-        return bookingdates;
-    }
+    public HashMap<Object, Object> getBookingdates() {return bookingdates;}
 
-    public void setBookingdates(HashMap<Object, Object> bookingdates) {
-        this.bookingdates = bookingdates;
-    }
+    public void setBookingdates(HashMap<Object, Object> bookingdates) {this.bookingdates = bookingdates;}
 }

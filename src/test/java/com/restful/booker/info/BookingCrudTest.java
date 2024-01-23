@@ -1,7 +1,6 @@
-package com.restful.booker.testbase.info;
+package com.restful.booker.info;
 
-import com.restful.booker.info.BookingSteps;
-import com.restful.booker.testbase.testbase.TestBase;
+import com.restful.booker.testbase.TestBase;
 import com.restful.booker.utils.TestUtils;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
@@ -11,14 +10,12 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import java.util.HashMap;
-
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasKey;
+
 @RunWith(SerenityRunner.class)
 public class BookingCrudTest extends TestBase {
-
 
     public static String firstname = "Avi" + TestUtils.getRandomValue();
     public static String lastname = "Patel" + TestUtils.getRandomValue();
@@ -50,10 +47,9 @@ public class BookingCrudTest extends TestBase {
         System.out.println(token);
     }
 
-    @Title("This will Create a booking")
+    @Title("This will create a booking")
     @Test
     public void T2() {
-
         HashMap<Object, Object> bookingsDatesData = new HashMap<>();
         bookingsDatesData.put("checkin", "2023-06-06");
         bookingsDatesData.put("checkout", "2023-07-07");
@@ -69,16 +65,14 @@ public class BookingCrudTest extends TestBase {
         System.out.println(token);
     }
 
-    @Title("This will read booking")
+    @Title("This will read the booking")
     @Test
     public void T3() {
-
         ValidatableResponse response = steps.readBooking(bookingID);
         response.log().all().statusCode(200);
-
     }
 
-    @Title("This will Update booking")
+    @Title("This will update the booking")
     @Test
     public void T4() {
         HashMap<Object, Object> bookingsDatesData = new HashMap<>();
@@ -95,14 +89,10 @@ public class BookingCrudTest extends TestBase {
         System.out.println(token);
     }
 
-
-    @Title("This will Deleted with BookingId")
+    @Title("This will delete the booking")
     @Test
     public void T5() {
-
         ValidatableResponse response = steps.deleteBooking(bookingID);
         response.log().all().statusCode(201);
-
-
     }
 }
